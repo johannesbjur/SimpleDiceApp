@@ -1,50 +1,40 @@
 package com.example.simplediceapp
 
-import android.graphics.drawable.Drawable
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.Button
+import android.widget.EditText
+
+const val EXTRA_GUESS = "com.example.simplediceapp.guess"
 
 class MainActivity : AppCompatActivity() {
 
-    var dice = Dice()
-    lateinit var diceImage: ImageView
+    lateinit var guessTextInput: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Log.d("MainActivity", dice.toString())
-        diceImage       = findViewById( R.id.diceImage )
+        val sendBtn = findViewById<Button>(R.id.sendBtn)
+        guessTextInput = findViewById(R.id.guessTextInput)
 
+        sendBtn.setOnClickListener {
+
+            sendToAnswerActivity()
+        }
     }
 
-    fun rollDiceClick( view: View) {
+    fun sendToAnswerActivity() {
 
-        dice.roll()
+        val intent = Intent( this, DiceRollActivity::class.java ).apply {
 
-        var iconName = R.drawable.ic_dice_1
+            putExtra( EXTRA_GUESS, guessTextInput.text.toString() )
+        }
 
-       when( dice.toString() ) {
-           "1" -> iconName = R.drawable.ic_dice_1
-           "2" -> iconName = R.drawable.ic_dice_2
-           "3" -> iconName = R.drawable.ic_dice_3
-           "4" -> iconName = R.drawable.ic_dice_4
-           "5" -> iconName = R.drawable.ic_dice_5
-           "6" -> iconName = R.drawable.ic_dice_6
-       }
-
-
-        Log.d("MainActivity", dice.toString())
-
-
-        diceImage.setImageResource(iconName)
-
+        startActivity(intent)
     }
-
 
 
 
