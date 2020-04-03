@@ -1,9 +1,11 @@
 package com.example.simplediceapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 
@@ -19,6 +21,14 @@ class DiceRollActivity : AppCompatActivity() {
 
         diceImage   = findViewById( R.id.diceImage )
         answerText  = findViewById( R.id.answerTextView )
+        val replayBtn = findViewById<Button>( R.id.replayBtn )
+
+        replayBtn.setOnClickListener {
+
+            val intent = Intent( this, MainActivity::class.java )
+
+            startActivity( intent )
+        }
 
         rollDice()
     }
@@ -42,7 +52,7 @@ class DiceRollActivity : AppCompatActivity() {
 
         val guess = intent.getStringExtra( EXTRA_GUESS )
 
-        answerText.text = if ( guess.toInt() == diceVal.toInt() ) {
+        answerText.text = if ( guess.toIntOrNull() == diceVal.toInt() ) {
             "Rätt"
         }
         else {
